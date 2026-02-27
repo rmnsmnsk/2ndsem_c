@@ -1,0 +1,26 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake clang-format
+
+    - name: Configure CMake
+      run: cmake -B build
+
+    - name: Build all
+      run: cmake --build build
+
+    - name: Run tests for all homeworks
+      run: |
+        cmake --build build --target check_hw_1
