@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/hw_1_tests.dir/tests.c.o CMakeFiles/hw_1_tests.dir/func.c.o -o hw_1_tests 
