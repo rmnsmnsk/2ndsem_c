@@ -25,11 +25,17 @@ int main()
 
         char* copy = copyStr(buffer, k);
 
-        data = realloc(data, rows * sizeof(char*));
-        if (data == NULL) {
+        char** tempData = realloc(data, rows * sizeof(char*));
+        if (tempData == NULL) {
             printf("Memory allocation failed\n");
+            for (int i = 0; i < rows - 1; i++) {
+                free(data[i]);
+            }
+            free(data);
+            fclose(file);
             return -1;
         }
+        data = tempData;
         data[rows - 1] = copy;
 
         for (int i = 0; i < k; i++) {
@@ -52,6 +58,12 @@ int main()
     int* maxColumns = calloc(column, sizeof(int));
     if (maxColumns == NULL) {
         printf("Memory allocation failed\n");
+
+        for (int i = 0; i < rows; i++) {
+            free(data[i]);
+        }
+        free(data);
+        fclose(file);
         return -1;
     }
 
@@ -77,6 +89,9 @@ int main()
     FILE* out = fopen("files/output.txt", "w");
     if (out == NULL) {
         printf("Output file error\n");
+        for (int i = 0; i < rows; i++) {
+            free(data[i]);
+        }
         free(data);
         free(maxColumns);
         fclose(file);
@@ -132,6 +147,7 @@ int main()
     free(data);
     free(maxColumns);
     fclose(file);
+    fclose(out);
 
     return 0;
 }
