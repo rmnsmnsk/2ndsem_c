@@ -1,0 +1,7 @@
+/home/roman/Desktop/Code/C/2ndsem_c/build/CMakeFiles/edit_cache.dir
+/home/roman/Desktop/Code/C/2ndsem_c/build/CMakeFiles/rebuild_cache.dir
+/home/roman/Desktop/Code/C/2ndsem_c/build/src/hw_1/CMakeFiles/hw_1.dir
+/home/roman/Desktop/Code/C/2ndsem_c/build/src/hw_1/CMakeFiles/hw_1_tests.dir
+/home/roman/Desktop/Code/C/2ndsem_c/build/src/hw_1/CMakeFiles/check_hw_1.dir
+/home/roman/Desktop/Code/C/2ndsem_c/build/src/hw_1/CMakeFiles/edit_cache.dir
+/home/roman/Desktop/Code/C/2ndsem_c/build/src/hw_1/CMakeFiles/rebuild_cache.dir

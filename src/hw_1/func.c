@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int clean_str(char* q)
+int cleanStr(const char* q)
 {
     int j = 0;
     while (q[j] != '\n' && q[j] != '\0') {
@@ -12,7 +12,7 @@ int clean_str(char* q)
     return j;
 }
 
-char* copy_str(char* buffer, int j)
+char* copyStr(const char* buffer, int j)
 {
     char* copy = malloc(j + 1);
     for (int i = 0; i < j; i++) {
@@ -22,9 +22,9 @@ char* copy_str(char* buffer, int j)
     return copy;
 }
 
-char* get_word(char* q, int n)
+char* getWord(const char* q, int n)
 {
-    int comma_count = 0;
+    int commaCount = 0;
     char* word = malloc(strlen(q) + 1);
     int len = 0;
 
@@ -36,17 +36,17 @@ char* get_word(char* q, int n)
             len++;
         }
         word[len] = '\0';
-        int y = clean_str(word);
-        char* clean_word = copy_str(word, y);
+        int y = cleanStr(word);
+        char* cleanWord = copyStr(word, y);
         free(word);
-        return clean_word;
+        return cleanWord;
     }
 
     for (int i = 0; i < strlen(q); i++) {
         if (q[i] == ',') {
-            comma_count++;
+            commaCount++;
         }
-        if (comma_count == n - 1) {
+        if (commaCount == n - 1) {
             i++;
             while (q[i] != ',' && i < strlen(q)) {
                 word[len] = q[i];
@@ -54,27 +54,27 @@ char* get_word(char* q, int n)
                 ++len;
             }
             word[len] = '\0';
-            int y = clean_str(word);
-            char* clean_word = copy_str(word, y);
+            int y = cleanStr(word);
+            char* cleanWord = copyStr(word, y);
             free(word);
-            return clean_word;
+            return cleanWord;
         }
     }
     free(word);
     return NULL;
 }
 
-char* get_line(char symbol, int len, int* max_columns, int column)
+char* getLine(char symbol, int len, const int* maxColumns, int column)
 {
     char* line = malloc(sizeof(char) * len);
     line[0] = '+';
     int j = 0;
     for (int u = 0; u < column; u++) {
-        int size_word = max_columns[u];
-        while (size_word > 0) {
+        int sizeWord = maxColumns[u];
+        while (sizeWord > 0) {
             j++;
             line[j] = symbol;
-            size_word -= 1;
+            sizeWord -= 1;
         }
         j++;
         line[j] = '+';
@@ -82,7 +82,7 @@ char* get_line(char symbol, int len, int* max_columns, int column)
     return line;
 }
 
-int is_number(char* str)
+int isNumber(const char* str)
 {
     if (str == NULL) {
         return 0;

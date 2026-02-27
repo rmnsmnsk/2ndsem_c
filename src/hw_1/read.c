@@ -11,7 +11,7 @@ int main()
         return -1;
     }
 
-    char** data = NULL; // массив указателей
+    char** data = NULL;
     char buffer[100];
     int column = 0;
     int rows = 0;
@@ -21,11 +21,15 @@ int main()
 
         rows++;
 
-        int k = clean_str(buffer);
+        int k = cleanStr(buffer);
 
-        char* copy = copy_str(buffer, k); // копирую т.к переменная buffer постоянно меняется
+        char* copy = copyStr(buffer, k);
 
         data = realloc(data, rows * sizeof(char*));
+        if (data == NULL) {
+            printf("Memory allocation failed\n");
+            return -1;
+        }
         data[rows - 1] = copy;
 
         for (int i = 0; i < k; i++) {
@@ -45,76 +49,88 @@ int main()
         return 0;
     }
 
-    int* max_columns = calloc(column, sizeof(int));
+    int* maxColumns = calloc(column, sizeof(int));
+    if (maxColumns == NULL) {
+        printf("Memory allocation failed\n");
+        return -1;
+    }
 
-    for (int u = 0; u < column; u++) { // цикл для max_columns
+    for (int u = 0; u < column; u++) {
         for (int t = 0; t < rows; t++) {
-            char* new_word = get_word(data[t], u + 1);
-            if (new_word != NULL) {
-                int len_word = strlen(new_word);
-                if (len_word > max_columns[u]) {
-                    max_columns[u] = len_word;
+            char* newWord = getWord(data[t], u + 1);
+            if (newWord != NULL) {
+                int lenWord = strlen(newWord);
+                if (lenWord > maxColumns[u]) {
+                    maxColumns[u] = lenWord;
                 }
-                free(new_word);
+                free(newWord);
             }
         }
     }
+
     int width = 0;
     for (int g = 0; g < column; g++) {
-        width += max_columns[g];
+        width += maxColumns[g];
     }
     width += (column + 1);
 
-    // запись в файл
     FILE* out = fopen("files/output.txt", "w");
-    char* line = get_line('=', width, max_columns, column);
-
     if (out == NULL) {
+        printf("Output file error\n");
+        free(data);
+        free(maxColumns);
+        fclose(file);
         return -1;
     }
-    if (line != NULL) { // верхняя линия
+
+    char* line = getLine('=', width, maxColumns, column);
+    if (line != NULL) {
         fprintf(out, "%s\n", line);
     }
-    fprintf(out, "%s", "|"); // заголовок
 
+    fprintf(out, "|");
     for (int y = 0; y < column; y++) {
-        char* word = get_word(data[0], y + 1);
+        char* word = getWord(data[0], y + 1);
         if (word != NULL) {
-            fprintf(out, "%-*s|", max_columns[y], word);
+            fprintf(out, "%-*s|", maxColumns[y], word);
             free(word);
         }
     }
     fprintf(out, "\n");
-    // после заголвока
+
     if (line != NULL) {
         fprintf(out, "%s", line);
         free(line);
     }
-    char* line_2 = get_line('-', width, max_columns, column);
-    // уже остальные данные
+
+    char* line2 = getLine('-', width, maxColumns, column);
     fprintf(out, "\n");
-    for (int t = 1; t < rows; ++t) {
+
+    for (int t = 1; t < rows; t++) {
         fprintf(out, "|");
         for (int r = 0; r < column; r++) {
-            char* word = get_word(data[t], r + 1);
+            char* word = getWord(data[t], r + 1);
             if (word != NULL) {
-                if (is_number(word)) {
-                    fprintf(out, "%*s|", max_columns[r], word);
-                    free(word);
+                if (isNumber(word)) {
+                    fprintf(out, "%*s|", maxColumns[r], word);
                 } else {
-                    fprintf(out, "%-*s|", max_columns[r], word);
-                    free(word);
+                    fprintf(out, "%-*s|", maxColumns[r], word);
                 }
+                free(word);
             } else {
-                fprintf(out, "%*s|", max_columns[r], "");
+                fprintf(out, "%*s|", maxColumns[r], "");
             }
         }
         fprintf(out, "\n");
-        fprintf(out, "%s\n", line_2);
+        fprintf(out, "%s\n", line2);
     }
-    free(line_2);
+
+    free(line2);
+    for (int i = 0; i < rows; i++) {
+        free(data[i]);
+    }
     free(data);
-    free(max_columns);
+    free(maxColumns);
     fclose(file);
 
     return 0;

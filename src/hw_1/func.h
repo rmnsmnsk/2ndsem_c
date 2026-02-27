@@ -1,7 +1,7 @@
 #pragma once
 
-int clean_str(char* q);
-char* copy_str(char* buffer, int j);
-char* get_word(char* q, int n);
-char* get_line(char symbol, int len, int* max_columns, int column);
-int is_number(char* str);
+int cleanStr(const char* q);
+char* copyStr(const char* buffer, int j);
+char* getWord(const char* q, int n);
+char* getLine(char symbol, int len, const int* maxColumns, int column);
+int isNumber(const char* str);
