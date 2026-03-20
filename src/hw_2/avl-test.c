@@ -119,7 +119,7 @@ void test_delete_nonexistent()
     treeFree(tree);
 }
 
-void test_balance()
+void testBalance()
 {
     Tree* tree = createTree();
 
@@ -136,7 +136,7 @@ void test_balance()
     treeFree(tree);
 }
 
-void test_multiple_operations()
+void testMultipleOperations()
 {
     Tree* tree = createTree();
 
@@ -176,8 +176,8 @@ int main()
     test_delete();
     test_insert_duplicate();
     test_delete_nonexistent();
-    test_balance();
-    test_multiple_operations();
+    testBalance();
+    testMultipleOperations();
 
     printf("Tests passed: %d\n", tests_passed);
     printf("Tests failed: %d\n", tests_failed);

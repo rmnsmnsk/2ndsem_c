@@ -21,8 +21,12 @@ Node* createNode(char* code, char* name)
     if (node == NULL) {
         return NULL;
     }
-    strcpy(node->code, code);
-    strcpy(node->name, name);
+    strncpy(node->code, code, sizeof(node->code) - 1);
+    node->code[sizeof(node->code) - 1] = '\0';
+
+    strncpy(node->name, name, sizeof(node->name) - 1);
+    node->name[sizeof(node->name) - 1] = '\0';
+
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
@@ -86,8 +90,11 @@ Node* nodeDelete(Node* node, char* value)
                 minRight = minRight->left;
             }
 
-            strcpy(node->code, minRight->code);
-            strcpy(node->name, minRight->name);
+            strncpy(node->code, minRight->code, sizeof(node->code) - 1);
+            node->code[sizeof(node->code) - 1] = '\0';
+
+            strncpy(node->name, minRight->name, sizeof(node->name) - 1);
+            node->name[sizeof(node->name) - 1] = '\0';
 
             if (parent == node) {
                 parent->right = nodeDelete(parent->right, minRight->code);
