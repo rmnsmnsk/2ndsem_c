@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
-project(Taks)
+project(Task)
 
-add_subdirectory(src/hw_1)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/hw_1)
+    add_subdirectory(src/hw_1)
+endif()
