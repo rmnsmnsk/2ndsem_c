@@ -3,21 +3,21 @@
 #include <stdio.h>
 #include <string.h>
 
-int tests_passed = 0;
-int tests_failed = 0;
+int testsPassed = 0;
+int testsFailed = 0;
 
-void test_createTree()
+void testCreateTree()
 {
     Tree* tree = createTree();
     assert(tree != NULL);
     assert(tree->root == NULL);
     assert(tree->size == 0);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
-void test_insert()
+void testInsert()
 {
     Tree* tree = createTree();
 
@@ -32,11 +32,11 @@ void test_insert()
     treeInsert(tree, "JFK", "Kennedy");
     assert(tree->size == 3);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
-void test_find()
+void testFind()
 {
     Tree* tree = createTree();
 
@@ -55,11 +55,11 @@ void test_find()
     name = getName(tree, "XXX");
     assert(name == NULL);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
-void test_delete()
+void testDelete()
 {
     Tree* tree = createTree();
 
@@ -84,11 +84,11 @@ void test_delete()
     assert(tree->size == 0);
     assert(tree->root == NULL);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
-void test_insert_duplicate()
+void testInsertDuplicate()
 {
     Tree* tree = createTree();
 
@@ -101,11 +101,11 @@ void test_insert_duplicate()
     char* name = getName(tree, "SVO");
     assert(strcmp(name, "Sheremetyevo") == 0);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
-void test_delete_nonexistent()
+void testDeleteNonexistent()
 {
     Tree* tree = createTree();
 
@@ -115,7 +115,7 @@ void test_delete_nonexistent()
     treeDelete(tree, "XXX");
     assert(tree->size == 1);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
@@ -132,7 +132,7 @@ void testBalance()
     int balance = getBalance(tree->root);
     assert(balance >= -1 && balance <= 1);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
@@ -164,25 +164,25 @@ void testMultipleOperations()
     assert(getName(tree, "LED") == NULL);
     assert(getName(tree, "JFK") == NULL);
 
-    tests_passed++;
+    testsPassed++;
     treeFree(tree);
 }
 
 int main()
 {
-    test_createTree();
-    test_insert();
-    test_find();
-    test_delete();
-    test_insert_duplicate();
-    test_delete_nonexistent();
+    testCreateTree();
+    testInsert();
+    testFind();
+    testDelete();
+    testInsertDuplicate();
+    testDeleteNonexistent();
     testBalance();
     testMultipleOperations();
 
-    printf("Tests passed: %d\n", tests_passed);
-    printf("Tests failed: %d\n", tests_failed);
+    printf("Tests passed: %d\n", testsPassed);
+    printf("Tests failed: %d\n", testsFailed);
 
-    if (tests_failed > 0) {
+    if (testsFailed > 0) {
         return 1;
     }
     return 0;
