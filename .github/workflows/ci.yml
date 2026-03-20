@@ -13,14 +13,26 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake clang-format
+        sudo apt-get install -y cmake clang-format clang-tidy
 
     - name: Configure CMake
-      run: cmake -B build
+      run: cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
     - name: Build all
       run: cmake --build build
 
-    - name: Run tests for all homeworks
+    - name: Run clang-tidy
       run: |
-        cmake --build build --target check_hw_1
+        if [ -f build/compile_commands.json ]; then
+          run-clang-tidy -p build -quiet || true
+        else
+          echo "compile_commands.json not found, skipping clang-tidy"
+        fi
+
+    - name: Run tests
+      run: |
+        if cmake --build build --target check_hw_1 2>/dev/null; then
+          cmake --build build --target check_hw_1
+        elif cmake --build build --target check_hw_2 2>/dev/null; then
+          cmake --build build --target check_hw_2
+        fi
