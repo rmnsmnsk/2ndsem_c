@@ -29,42 +29,42 @@ Node* createNode(char* code, char* name)
     return node;
 }
 
-Node* insertrecursive(Node* node, char* code, char* name)
+Node* insertRecursive(Node* node, char* code, char* name)
 {
     if (node == NULL) {
         return createNode(code, name);
     }
 
     if (strcmp(code, node->code) > 0) {
-        node->right = insertrecursive(node->right, code, name);
+        node->right = insertRecursive(node->right, code, name);
     } else if (strcmp(code, node->code) < 0) {
-        node->left = insertrecursive(node->left, code, name);
+        node->left = insertRecursive(node->left, code, name);
     } else if (strcmp(code, node->code) == 0) {
         return node;
     }
 
     updateHeight(node);
     if (getBalance(node) > 1 && getBalance(node->left) >= 0) {
-        node = small_rotate_right(node);
+        node = smallRotateRight(node);
     } else if (getBalance(node) < -1 && getBalance(node->right) <= 0) {
-        node = small_rotate_left(node);
+        node = smallRotateLeft(node);
     } else if (getBalance(node) > 1 && getBalance(node->left) < 0) {
-        node = big_rotate_right(node);
+        node = bigRotateRight(node);
     } else if (getBalance(node) < -1 && getBalance(node->right) > 0) {
-        node = big_rotate_left(node);
+        node = bigRotateLeft(node);
     }
     return node;
 }
 
-Node* NodeDelete(Node* node, char* value)
+Node* nodeDelete(Node* node, char* value)
 {
     if (node == NULL)
         return NULL;
 
     if (strcmp(value, node->code) < 0) {
-        node->left = NodeDelete(node->left, value);
+        node->left = nodeDelete(node->left, value);
     } else if (strcmp(value, node->code) > 0) {
-        node->right = NodeDelete(node->right, value);
+        node->right = nodeDelete(node->right, value);
     } else {
         if (node->left == NULL && node->right == NULL) {
             free(node);
@@ -90,66 +90,66 @@ Node* NodeDelete(Node* node, char* value)
             strcpy(node->name, minRight->name);
 
             if (parent == node) {
-                parent->right = NodeDelete(parent->right, minRight->code);
+                parent->right = nodeDelete(parent->right, minRight->code);
             } else {
-                parent->left = NodeDelete(parent->left, minRight->code);
+                parent->left = nodeDelete(parent->left, minRight->code);
             }
         }
     }
     updateHeight(node);
     if (getBalance(node) > 1 && getBalance(node->left) >= 0) {
-        node = small_rotate_right(node);
+        node = smallRotateRight(node);
     } else if (getBalance(node) < -1 && getBalance(node->right) <= 0) {
-        node = small_rotate_left(node);
+        node = smallRotateLeft(node);
     } else if (getBalance(node) > 1 && getBalance(node->left) < 0) {
-        node = big_rotate_right(node);
+        node = bigRotateRight(node);
     } else if (getBalance(node) < -1 && getBalance(node->right) > 0) {
-        node = big_rotate_left(node);
+        node = bigRotateLeft(node);
     }
     return node;
 }
 
-void TreeDelete(Tree* tree, char* value)
+void treeDelete(Tree* tree, char* value)
 {
     if (tree == NULL || tree->root == NULL)
         return;
 
-    Node* existing = TreeFind(tree, value);
+    Node* existing = treeFind(tree, value);
     if (existing == NULL)
         return;
 
-    tree->root = NodeDelete(tree->root, value);
+    tree->root = nodeDelete(tree->root, value);
     tree->size--;
 }
 
-void TreeInsert(Tree* tree, char* code, char* name)
+void treeInsert(Tree* tree, char* code, char* name)
 {
     if (tree == NULL)
         return;
 
-    Node* existing = TreeFind(tree, code);
+    Node* existing = treeFind(tree, code);
 
-    tree->root = insertrecursive(tree->root, code, name);
+    tree->root = insertRecursive(tree->root, code, name);
 
     if (existing == NULL) {
         tree->size++;
     }
 }
 
-char* get_name(Tree* tree, char* code)
+char* getName(Tree* tree, char* code)
 {
     if (tree == NULL || tree->root == NULL) {
         return NULL;
     }
 
-    Node* t = TreeFind(tree, code);
+    Node* t = treeFind(tree, code);
     if (t == NULL) {
         return NULL;
     }
     return t->name;
 }
 
-Node* TreeFind(Tree* tree, char* code)
+Node* treeFind(Tree* tree, char* code)
 {
     if (tree == NULL || tree->root == NULL) {
         return NULL;
@@ -168,23 +168,23 @@ Node* TreeFind(Tree* tree, char* code)
     return NULL;
 }
 
-void NodeFree(Node* node)
+void nodeFree(Node* node)
 {
     if (node == NULL) {
         return;
     }
 
-    NodeFree(node->right);
-    NodeFree(node->left);
+    nodeFree(node->right);
+    nodeFree(node->left);
     free(node);
 }
 
-void TreeFree(Tree* tree)
+void treeFree(Tree* tree)
 {
     if (tree == NULL) {
         return;
     }
-    NodeFree(tree->root);
+    nodeFree(tree->root);
     free(tree);
 }
 
@@ -220,7 +220,7 @@ int getBalance(Node* node)
     return getHeight(node->left) - getHeight(node->right);
 }
 
-Node* small_rotate_right(Node* node)
+Node* smallRotateRight(Node* node)
 {
     if (node == NULL) {
         return NULL;
@@ -233,7 +233,7 @@ Node* small_rotate_right(Node* node)
     return result;
 }
 
-Node* small_rotate_left(Node* node)
+Node* smallRotateLeft(Node* node)
 {
     if (node == NULL) {
         return NULL;
@@ -246,14 +246,14 @@ Node* small_rotate_left(Node* node)
     return result;
 }
 
-Node* big_rotate_right(Node* node)
+Node* bigRotateRight(Node* node)
 {
-    node->left = small_rotate_left(node->left);
-    return (small_rotate_right(node));
+    node->left = smallRotateLeft(node->left);
+    return (smallRotateRight(node));
 }
 
-Node* big_rotate_left(Node* node)
+Node* bigRotateLeft(Node* node)
 {
-    node->right = small_rotate_right(node->right);
-    return (small_rotate_left(node));
+    node->right = smallRotateRight(node->right);
+    return (smallRotateLeft(node));
 }

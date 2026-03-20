@@ -14,158 +14,158 @@ void test_createTree()
     assert(tree->size == 0);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 void test_insert()
 {
     Tree* tree = createTree();
 
-    TreeInsert(tree, "SVO", "Sheremetyevo");
+    treeInsert(tree, "SVO", "Sheremetyevo");
     assert(tree->size == 1);
     assert(tree->root != NULL);
     assert(strcmp(tree->root->code, "SVO") == 0);
 
-    TreeInsert(tree, "LED", "Pulkovo");
+    treeInsert(tree, "LED", "Pulkovo");
     assert(tree->size == 2);
 
-    TreeInsert(tree, "JFK", "Kennedy");
+    treeInsert(tree, "JFK", "Kennedy");
     assert(tree->size == 3);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 void test_find()
 {
     Tree* tree = createTree();
 
-    TreeInsert(tree, "SVO", "Sheremetyevo");
-    TreeInsert(tree, "LED", "Pulkovo");
-    TreeInsert(tree, "JFK", "Kennedy");
+    treeInsert(tree, "SVO", "Sheremetyevo");
+    treeInsert(tree, "LED", "Pulkovo");
+    treeInsert(tree, "JFK", "Kennedy");
 
-    char* name = get_name(tree, "SVO");
+    char* name = getName(tree, "SVO");
     assert(name != NULL);
     assert(strcmp(name, "Sheremetyevo") == 0);
 
-    name = get_name(tree, "LED");
+    name = getName(tree, "LED");
     assert(name != NULL);
     assert(strcmp(name, "Pulkovo") == 0);
 
-    name = get_name(tree, "XXX");
+    name = getName(tree, "XXX");
     assert(name == NULL);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 void test_delete()
 {
     Tree* tree = createTree();
 
-    TreeInsert(tree, "SVO", "Sheremetyevo");
-    TreeInsert(tree, "LED", "Pulkovo");
-    TreeInsert(tree, "JFK", "Kennedy");
+    treeInsert(tree, "SVO", "Sheremetyevo");
+    treeInsert(tree, "LED", "Pulkovo");
+    treeInsert(tree, "JFK", "Kennedy");
     assert(tree->size == 3);
 
-    TreeDelete(tree, "LED");
+    treeDelete(tree, "LED");
     assert(tree->size == 2);
 
-    char* name = get_name(tree, "LED");
+    char* name = getName(tree, "LED");
     assert(name == NULL);
 
-    name = get_name(tree, "SVO");
+    name = getName(tree, "SVO");
     assert(name != NULL);
 
-    TreeDelete(tree, "SVO");
+    treeDelete(tree, "SVO");
     assert(tree->size == 1);
 
-    TreeDelete(tree, "JFK");
+    treeDelete(tree, "JFK");
     assert(tree->size == 0);
     assert(tree->root == NULL);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 void test_insert_duplicate()
 {
     Tree* tree = createTree();
 
-    TreeInsert(tree, "SVO", "Sheremetyevo");
+    treeInsert(tree, "SVO", "Sheremetyevo");
     assert(tree->size == 1);
 
-    TreeInsert(tree, "SVO", "Moscow");
+    treeInsert(tree, "SVO", "Moscow");
     assert(tree->size == 1);
 
-    char* name = get_name(tree, "SVO");
+    char* name = getName(tree, "SVO");
     assert(strcmp(name, "Sheremetyevo") == 0);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 void test_delete_nonexistent()
 {
     Tree* tree = createTree();
 
-    TreeInsert(tree, "SVO", "Sheremetyevo");
+    treeInsert(tree, "SVO", "Sheremetyevo");
     assert(tree->size == 1);
 
-    TreeDelete(tree, "XXX");
+    treeDelete(tree, "XXX");
     assert(tree->size == 1);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 void test_balance()
 {
     Tree* tree = createTree();
 
-    TreeInsert(tree, "AAA", "Airport A");
-    TreeInsert(tree, "BBB", "Airport B");
-    TreeInsert(tree, "CCC", "Airport C");
-    TreeInsert(tree, "DDD", "Airport D");
-    TreeInsert(tree, "EEE", "Airport E");
+    treeInsert(tree, "AAA", "Airport A");
+    treeInsert(tree, "BBB", "Airport B");
+    treeInsert(tree, "CCC", "Airport C");
+    treeInsert(tree, "DDD", "Airport D");
+    treeInsert(tree, "EEE", "Airport E");
 
     int balance = getBalance(tree->root);
     assert(balance >= -1 && balance <= 1);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 void test_multiple_operations()
 {
     Tree* tree = createTree();
 
-    TreeInsert(tree, "SVO", "Sheremetyevo");
-    TreeInsert(tree, "LED", "Pulkovo");
-    TreeInsert(tree, "JFK", "Kennedy");
-    TreeInsert(tree, "CDG", "Charles de Gaulle");
-    TreeInsert(tree, "FRA", "Frankfurt");
+    treeInsert(tree, "SVO", "Sheremetyevo");
+    treeInsert(tree, "LED", "Pulkovo");
+    treeInsert(tree, "JFK", "Kennedy");
+    treeInsert(tree, "CDG", "Charles de Gaulle");
+    treeInsert(tree, "FRA", "Frankfurt");
 
     assert(tree->size == 5);
 
-    assert(get_name(tree, "SVO") != NULL);
-    assert(get_name(tree, "LED") != NULL);
-    assert(get_name(tree, "JFK") != NULL);
-    assert(get_name(tree, "CDG") != NULL);
-    assert(get_name(tree, "FRA") != NULL);
+    assert(getName(tree, "SVO") != NULL);
+    assert(getName(tree, "LED") != NULL);
+    assert(getName(tree, "JFK") != NULL);
+    assert(getName(tree, "CDG") != NULL);
+    assert(getName(tree, "FRA") != NULL);
 
-    TreeDelete(tree, "LED");
-    TreeDelete(tree, "JFK");
+    treeDelete(tree, "LED");
+    treeDelete(tree, "JFK");
     assert(tree->size == 3);
 
-    assert(get_name(tree, "SVO") != NULL);
-    assert(get_name(tree, "CDG") != NULL);
-    assert(get_name(tree, "FRA") != NULL);
-    assert(get_name(tree, "LED") == NULL);
-    assert(get_name(tree, "JFK") == NULL);
+    assert(getName(tree, "SVO") != NULL);
+    assert(getName(tree, "CDG") != NULL);
+    assert(getName(tree, "FRA") != NULL);
+    assert(getName(tree, "LED") == NULL);
+    assert(getName(tree, "JFK") == NULL);
 
     tests_passed++;
-    TreeFree(tree);
+    treeFree(tree);
 }
 
 int main()

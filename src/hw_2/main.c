@@ -28,7 +28,7 @@ Tree* loadFromFile(char* filename)
         char* name = strtok(NULL, ":");
 
         if (iata && name) {
-            TreeInsert(tree, iata, name);
+            treeInsert(tree, iata, name);
             loaded++;
         }
     }
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
             char* code = args;
             code[strcspn(code, " \n")] = 0;
 
-            char* name = get_name(tree, code);
+            char* name = getName(tree, code);
             if (name != NULL) {
                 printf("%s → %s\n", code, name);
             } else {
@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
                 continue;
             }
 
-            TreeInsert(tree, code, name);
+            treeInsert(tree, code, name);
             printf("Аэропорт '%s' добавлен в базу.\n", code);
         } else if (strcmp(cmd, "delete") == 0) {
             if (args == NULL) {
@@ -144,13 +144,13 @@ int main(int argc, char* argv[])
             char* code = args;
             code[strcspn(code, " \n")] = 0;
 
-            Node* existing = TreeFind(tree, code);
+            Node* existing = treeFind(tree, code);
             if (existing == NULL) {
                 printf("Аэропорт с кодом '%s' не найден в базе.\n", code);
                 continue;
             }
 
-            TreeDelete(tree, code);
+            treeDelete(tree, code);
             printf("Аэропорт '%s' удалён из базы.\n", code);
         } else {
             printf("Неизвестная команда: %s\n", cmd);
@@ -158,6 +158,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    TreeFree(tree);
+    treeFree(tree);
     return 0;
 }
