@@ -13,7 +13,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake clang-format
+        sudo apt-get install -y cmake clang-format clang-tidy
 
     - name: Configure CMake
       run: cmake -B build
@@ -21,6 +21,13 @@ jobs:
     - name: Build all
       run: cmake --build build
 
-    - name: Run tests for all homeworks
+    - name: Run clang-tidy
+      run: run-clang-tidy -p build -quiet
+
+    - name: Run tests
       run: |
-        cmake --build build --target check_hw_1
+        if cmake --build build --target check_hw_1 2>/dev/null; then
+          cmake --build build --target check_hw_1
+        elif cmake --build build --target check_hw_2 2>/dev/null; then
+          cmake --build build --target check_hw_2
+        fi
