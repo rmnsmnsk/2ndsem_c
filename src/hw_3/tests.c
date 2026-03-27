@@ -5,7 +5,7 @@
 
 void testCreateGraph(void)
 {
-    adjacencyList** graph = createGraph(5);
+    AdjacencyList** graph = createGraph(5);
     assert(graph != NULL);
     for (int i = 0; i < 5; i++) {
         assert(graph[i] == NULL);
@@ -15,7 +15,7 @@ void testCreateGraph(void)
 
 void testAddEdge(void)
 {
-    adjacencyList** graph = createGraph(5);
+    AdjacencyList** graph = createGraph(5);
     addEdge(graph, 1, 2, 10);
     addEdge(graph, 2, 1, 10);
     assert(graph[0] != NULL);
