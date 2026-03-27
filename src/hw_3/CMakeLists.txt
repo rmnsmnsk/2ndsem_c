@@ -12,3 +12,8 @@ add_executable(tests
     tests.c
     func.c
 )
+
+add_custom_target(check_hw_3
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/tests
+    DEPENDS tests
+)

@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct adjacencyList {
+typedef struct AdjacencyList {
     int len;
     int where;
-    struct adjacencyList* next;
-} adjacencyList;
+    struct AdjacencyList* next;
+} AdjacencyList;
 
 typedef struct {
     int city;
@@ -32,15 +32,15 @@ typedef struct {
     int n;
     int m;
     int k;
-    adjacencyList** graph;
+    AdjacencyList** graph;
     int* capitals;
     State* states;
 } InputData;
 
-adjacencyList** createGraph(int n);
-void addEdge(adjacencyList** list, int from, int to, int len);
-void freeGraph(adjacencyList** list, int n);
-void freeEdge(adjacencyList* edge);
+AdjacencyList** createGraph(int n);
+void addEdge(AdjacencyList** list, int from, int to, int len);
+void freeGraph(AdjacencyList** list, int n);
+void freeEdge(AdjacencyList* edge);
 
 Heap* heapCreate(int capacity);
 void heapPush(Heap* h, Candidate c);

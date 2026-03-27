@@ -2,18 +2,18 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-adjacencyList** createGraph(int n)
+AdjacencyList** createGraph(int n)
 {
-    adjacencyList** graph = malloc(sizeof(adjacencyList*) * n);
+    AdjacencyList** graph = malloc(sizeof(AdjacencyList*) * n);
     for (int i = 0; i < n; i++) {
         graph[i] = NULL;
     }
     return graph;
 }
-void addEdge(adjacencyList** list, int from, int to, int len)
+void addEdge(AdjacencyList** list, int from, int to, int len)
 {
 
-    adjacencyList* current = malloc(sizeof(adjacencyList));
+    AdjacencyList* current = malloc(sizeof(AdjacencyList));
     current->len = len;
     current->where = to;
     if (list[from - 1] == NULL) {
@@ -25,17 +25,17 @@ void addEdge(adjacencyList** list, int from, int to, int len)
     }
 }
 
-void freeEdge(adjacencyList* edge)
+void freeEdge(AdjacencyList* edge)
 {
-    adjacencyList* current = edge;
+    AdjacencyList* current = edge;
     while (current != NULL) {
-        adjacencyList* tempCurrent = current;
+        AdjacencyList* tempCurrent = current;
         current = current->next;
         free(tempCurrent);
     }
 }
 
-void freeGraph(adjacencyList** list, int n)
+void freeGraph(AdjacencyList** list, int n)
 {
     for (int i = 0; i < n; ++i) {
         freeEdge(list[i]);
@@ -156,7 +156,7 @@ InputData* readFromFile(char* file)
         return NULL;
     }
     fscanf(f, "%d %d", &result->n, &result->m);
-    adjacencyList** new = createGraph(result->n);
+    AdjacencyList** new = createGraph(result->n);
     for (int t = 0; t < result->m; t++) {
         int i, j, len;
         fscanf(f, "%d %d %d", &i, &j, &len);
@@ -231,7 +231,7 @@ void algorithm(InputData* data)
 
     for (int stateNum = 1; stateNum <= data->k; stateNum++) {
         int capital = data->capitals[stateNum - 1];
-        adjacencyList* edge = data->graph[capital - 1];
+        AdjacencyList* edge = data->graph[capital - 1];
 
         while (edge != NULL) {
             int neighbor = edge->where;
@@ -261,7 +261,7 @@ void algorithm(InputData* data)
                     stateAddCity(currentState, best.city);
                     assignedCities++;
 
-                    adjacencyList* edge = data->graph[best.city - 1];
+                    AdjacencyList* edge = data->graph[best.city - 1];
                     while (edge != NULL) {
                         int neighbor = edge->where;
                         if (owner[neighbor] == 0) {
