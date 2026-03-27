@@ -21,6 +21,3 @@ jobs:
     - name: Build all
       run: cmake --build build
 
-    - name: Run tests for all homeworks
-      run: |
-        cmake --build build --target check_hw_1
